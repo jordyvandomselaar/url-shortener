@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - URL Shortener</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <h1>URL Shortener</h1>
+      <ul>
+        <li><a href="/public/dashboard.html">URLs</a></li>
+        <li><a href="/public/users.html" id="usersLink" style="display: none;">Users</a></li>
+        <li><a href="#" id="logoutBtn">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="alert"></div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <h3>Total URLs</h3>
+        <p id="totalUrls">0</p>
+      </div>
+      <div class="stat-card">
+        <h3>Total Clicks</h3>
+        <p id="totalClicks">0</p>
+      </div>
+      <div class="stat-card">
+        <h3>Total Variants</h3>
+        <p id="totalVariants">0</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Create Short URL</h2>
+      <form id="createUrlForm">
+        <div class="form-group">
+          <label for="longUrl">Long URL</label>
+          <input type="url" id="longUrl" name="longUrl" placeholder="https://example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="customShortCode">Custom Short Code (Optional)</label>
+          <input type="text" id="customShortCode" name="customShortCode" placeholder="my-link" pattern="[a-zA-Z0-9-]+" maxlength="20">
+          <small>Only letters, numbers, and hyphens allowed</small>
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>My URLs</h2>
+      <table id="urlsTable">
+        <thead>
+          <tr>
+            <th>Short Code</th>
+            <th>Long URL</th>
+            <th>Clicks</th>
+            <th>Variants</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="urlsBody">
+        </tbody>
+      </table>
+    </div>
+
+    <div id="variantModal" style="display: none;">
+      <div class="card">
+        <h2>Create URL Variant</h2>
+        <p>Base URL: <span id="variantBaseUrl"></span></p>
+        <form id="createVariantForm">
+          <input type="hidden" id="variantUrlId">
+          <div class="form-group">
+            <label for="utmSource">UTM Source</label>
+            <input type="text" id="utmSource" name="utmSource" placeholder="facebook">
+          </div>
+          <div class="form-group">
+            <label for="utmMedium">UTM Medium</label>
+            <input type="text" id="utmMedium" name="utmMedium" placeholder="social">
+          </div>
+          <div class="form-group">
+            <label for="utmCampaign">UTM Campaign</label>
+            <input type="text" id="utmCampaign" name="utmCampaign" placeholder="summer-sale">
+          </div>
+          <div class="form-group">
+            <label for="utmTerm">UTM Term (Optional)</label>
+            <input type="text" id="utmTerm" name="utmTerm">
+          </div>
+          <div class="form-group">
+            <label for="utmContent">UTM Content (Optional)</label>
+            <input type="text" id="utmContent" name="utmContent">
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <button type="submit">Create Variant</button>
+            <button type="button" class="secondary" onclick="hideVariantModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="/public/js/dashboard.js"></script>
+</body>
+</html>

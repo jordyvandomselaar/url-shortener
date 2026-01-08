@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - URL Shortener</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <h1>Create Account</h1>
+      <div id="alert"></div>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="name">Name (Optional)</label>
+          <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required minlength="6">
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <p style="text-align: center; margin-top: 1rem;">
+        Already have an account? <a href="/public/login.html">Login</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const alert = document.getElementById('alert');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alert.innerHTML = '';
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          window.location.href = '/public/dashboard.html';
+        } else {
+          alert.innerHTML = `<div class="alert alert-error">${data.error}</div>`;
+        }
+      } catch (error) {
+        alert.innerHTML = '<div class="alert alert-error">An error occurred. Please try again.</div>';
+      }
+    });
+  </script>
+</body>
+</html>
